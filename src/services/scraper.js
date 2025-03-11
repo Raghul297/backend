@@ -435,9 +435,10 @@ const getNews = () => {
   // If newsCache is empty, return test data
   if (!newsCache || newsCache.length === 0) {
     return [
+      // Times of India Articles
       {
-        source: "Test Source",
-        title: "Sample Political News",
+        source: "Times of India",
+        title: "Government Announces Major Policy Changes",
         summary:
           "This is a test article about recent political developments in India. The government has announced new policies.",
         topic: "politics",
@@ -449,28 +450,108 @@ const getNews = () => {
         timestamp: new Date(),
       },
       {
-        source: "Test Source",
-        title: "Cricket Match Update",
+        source: "Times of India",
+        title: "Stock Market Hits New High",
+        summary:
+          "Sensex and Nifty reach record levels as foreign investments surge in Indian markets.",
+        topic: "business",
+        sentiment: "0.8",
+        entities: {
+          states: ["mumbai"],
+          people: ["Sitharaman"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "Times of India",
+        title: "New Education Policy Implementation",
+        summary:
+          "States begin implementing the new education policy with focus on skill development.",
+        topic: "politics",
+        sentiment: "0.5",
+        entities: {
+          states: ["delhi", "gujarat"],
+          people: ["Kumar"],
+        },
+        timestamp: new Date(),
+      },
+      // NDTV Articles
+      {
+        source: "NDTV",
+        title: "Election Results Analysis",
+        summary:
+          "Comprehensive analysis of state election results and their national implications.",
+        topic: "politics",
+        sentiment: "0.4",
+        entities: {
+          states: ["gujarat", "maharashtra"],
+          people: ["Shah", "Gandhi"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "NDTV",
+        title: "India vs Australia: Match Preview",
         summary:
           "India won the cricket match against Australia in an exciting finish at the Melbourne Cricket Ground.",
         topic: "sports",
         sentiment: "0.8",
         entities: {
           states: ["mumbai"],
-          people: ["Kohli"],
+          people: ["Kohli", "Rohit"],
         },
         timestamp: new Date(),
       },
       {
-        source: "Test Source",
-        title: "Technology Innovation in India",
+        source: "NDTV",
+        title: "Healthcare System Reform",
         summary:
-          "Indian tech startups are making waves with new AI innovations and digital solutions.",
+          "Government announces major reforms in healthcare system with increased budget allocation.",
+        topic: "politics",
+        sentiment: "0.6",
+        entities: {
+          states: ["delhi"],
+          people: ["Mandaviya"],
+        },
+        timestamp: new Date(),
+      },
+      // India Today Articles
+      {
+        source: "India Today",
+        title: "AI Innovation in Indian Startups",
+        summary:
+          "Indian tech startups are leading innovation in artificial intelligence and machine learning sectors.",
         topic: "technology",
         sentiment: "0.6",
         entities: {
           states: ["bangalore"],
-          people: ["Nilekani"],
+          people: ["Narayana"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "India Today",
+        title: "Defense Deal Announced",
+        summary:
+          "India signs major defense deal for advanced military equipment and technology transfer.",
+        topic: "politics",
+        sentiment: "0.5",
+        entities: {
+          states: ["delhi"],
+          people: ["Singh"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "India Today",
+        title: "Tourism Sector Recovery",
+        summary:
+          "Tourist destinations see sharp recovery in visitors as international travel resumes.",
+        topic: "business",
+        sentiment: "0.8",
+        entities: {
+          states: ["kerala", "goa"],
+          people: ["Reddy"],
         },
         timestamp: new Date(),
       },
