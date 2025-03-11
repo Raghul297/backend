@@ -230,7 +230,7 @@ const updateNews = async () => {
         source: "Times of India",
         title: "Government Announces Major Policy Changes",
         summary:
-          "This is a test article about recent political developments in India. The government has announced new policies.",
+          "The Union Cabinet has approved a comprehensive economic reform package aimed at boosting growth and creating jobs. The new policy includes tax incentives for manufacturing, infrastructure development, and digital transformation initiatives.",
         topic: "politics",
         sentiment: "0.2",
         entities: {
@@ -440,7 +440,7 @@ const getNews = () => {
         source: "Times of India",
         title: "Government Announces Major Policy Changes",
         summary:
-          "This is a test article about recent political developments in India. The government has announced new policies.",
+          "The Union Cabinet has approved a comprehensive economic reform package aimed at boosting growth and creating jobs. The new policy includes tax incentives for manufacturing, infrastructure development, and digital transformation initiatives.",
         topic: "politics",
         sentiment: "0.2",
         entities: {
