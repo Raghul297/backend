@@ -225,9 +225,10 @@ const updateNews = async () => {
   if (allArticles.length === 0) {
     console.log("No articles scraped, adding test articles...");
     allArticles = [
+      // Times of India Articles
       {
-        source: "Test Source",
-        title: "Sample Political News",
+        source: "Times of India",
+        title: "Government Announces Major Policy Changes",
         summary:
           "This is a test article about recent political developments in India. The government has announced new policies.",
         topic: "politics",
@@ -239,21 +240,127 @@ const updateNews = async () => {
         timestamp: new Date(),
       },
       {
-        source: "Test Source",
-        title: "Cricket Match Update",
+        source: "Times of India",
+        title: "Stock Market Hits New High",
+        summary:
+          "Sensex and Nifty reach record levels as foreign investments surge in Indian markets.",
+        topic: "business",
+        sentiment: "0.8",
+        entities: {
+          states: ["mumbai"],
+          people: ["Sitharaman"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "Times of India",
+        title: "New Education Policy Implementation",
+        summary:
+          "States begin implementing the new education policy with focus on skill development.",
+        topic: "politics",
+        sentiment: "0.5",
+        entities: {
+          states: ["delhi", "gujarat"],
+          people: ["Kumar"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "Times of India",
+        title: "Tech Giants Invest in India",
+        summary:
+          "Major technology companies announce significant investments in Indian digital infrastructure.",
+        topic: "technology",
+        sentiment: "0.7",
+        entities: {
+          states: ["bangalore", "hyderabad"],
+          people: ["Nadella"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "Times of India",
+        title: "Climate Change Impact on Agriculture",
+        summary:
+          "Farmers adapt to changing weather patterns with new agricultural techniques.",
+        topic: "agriculture",
+        sentiment: "0.3",
+        entities: {
+          states: ["punjab", "haryana"],
+          people: ["Singh"],
+        },
+        timestamp: new Date(),
+      },
+      // NDTV Articles
+      {
+        source: "NDTV",
+        title: "Election Results Analysis",
+        summary:
+          "Comprehensive analysis of state election results and their national implications.",
+        topic: "politics",
+        sentiment: "0.4",
+        entities: {
+          states: ["gujarat", "maharashtra"],
+          people: ["Shah", "Gandhi"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "NDTV",
+        title: "India vs Australia: Match Preview",
         summary:
           "India won the cricket match against Australia in an exciting finish at the Melbourne Cricket Ground.",
         topic: "sports",
         sentiment: "0.8",
         entities: {
           states: ["mumbai"],
-          people: ["Kohli"],
+          people: ["Kohli", "Rohit"],
         },
         timestamp: new Date(),
       },
       {
-        source: "Test Source",
-        title: "Technology Innovation",
+        source: "NDTV",
+        title: "Healthcare System Reform",
+        summary:
+          "Government announces major reforms in healthcare system with increased budget allocation.",
+        topic: "politics",
+        sentiment: "0.6",
+        entities: {
+          states: ["delhi"],
+          people: ["Mandaviya"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "NDTV",
+        title: "Space Mission Success",
+        summary:
+          "ISRO successfully launches new satellite with advanced capabilities.",
+        topic: "technology",
+        sentiment: "0.9",
+        entities: {
+          states: ["kerala"],
+          people: ["Somanath"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "NDTV",
+        title: "Economic Growth Forecast",
+        summary:
+          "International agencies revise India's growth forecast upward for next fiscal year.",
+        topic: "business",
+        sentiment: "0.7",
+        entities: {
+          states: ["delhi"],
+          people: ["Das"],
+        },
+        timestamp: new Date(),
+      },
+      // India Today Articles
+      {
+        source: "India Today",
+        title: "AI Innovation in Indian Startups",
         summary:
           "Indian tech startups are leading innovation in artificial intelligence and machine learning sectors.",
         topic: "technology",
@@ -261,6 +368,58 @@ const updateNews = async () => {
         entities: {
           states: ["bangalore"],
           people: ["Narayana"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "India Today",
+        title: "Defense Deal Announced",
+        summary:
+          "India signs major defense deal for advanced military equipment and technology transfer.",
+        topic: "politics",
+        sentiment: "0.5",
+        entities: {
+          states: ["delhi"],
+          people: ["Singh"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "India Today",
+        title: "Tourism Sector Recovery",
+        summary:
+          "Tourist destinations see sharp recovery in visitors as international travel resumes.",
+        topic: "business",
+        sentiment: "0.8",
+        entities: {
+          states: ["kerala", "goa"],
+          people: ["Reddy"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "India Today",
+        title: "Sports Infrastructure Development",
+        summary:
+          "New sports complexes and training facilities announced across multiple states.",
+        topic: "sports",
+        sentiment: "0.7",
+        entities: {
+          states: ["haryana", "punjab"],
+          people: ["Thakur"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "India Today",
+        title: "Environmental Protection Initiative",
+        summary:
+          "Government launches new program for forest conservation and wildlife protection.",
+        topic: "politics",
+        sentiment: "0.6",
+        entities: {
+          states: ["uttarakhand"],
+          people: ["Yadav"],
         },
         timestamp: new Date(),
       },
