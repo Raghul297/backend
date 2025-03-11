@@ -272,17 +272,65 @@ const updateNews = async () => {
   console.log("Sample article:", allArticles[0] || "No articles found");
 };
 
+const getNews = () => {
+  // If newsCache is empty, return test data
+  if (!newsCache || newsCache.length === 0) {
+    return [
+      {
+        source: "Test Source",
+        title: "Sample Political News",
+        summary:
+          "This is a test article about recent political developments in India. The government has announced new policies.",
+        topic: "politics",
+        sentiment: "0.2",
+        entities: {
+          states: ["delhi"],
+          people: ["Modi"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "Test Source",
+        title: "Cricket Match Update",
+        summary:
+          "India won the cricket match against Australia in an exciting finish at the Melbourne Cricket Ground.",
+        topic: "sports",
+        sentiment: "0.8",
+        entities: {
+          states: ["mumbai"],
+          people: ["Kohli"],
+        },
+        timestamp: new Date(),
+      },
+      {
+        source: "Test Source",
+        title: "Technology Innovation in India",
+        summary:
+          "Indian tech startups are making waves with new AI innovations and digital solutions.",
+        topic: "technology",
+        sentiment: "0.6",
+        entities: {
+          states: ["bangalore"],
+          people: ["Nilekani"],
+        },
+        timestamp: new Date(),
+      },
+    ];
+  }
+  return newsCache;
+};
+
+// Modify setupNewsScraping to run immediately and then schedule
 const setupNewsScraping = () => {
-  // Update news immediately on startup
-  updateNews();
+  // Run immediately
+  updateNews().catch(console.error);
 
-  // Schedule updates every 30 minutes
-  cron.schedule("*/30 * * * *", updateNews);
+  // Schedule updates every 30 minutes if not in production
+  if (process.env.NODE_ENV !== "production") {
+    cron.schedule("*/30 * * * *", () => {
+      updateNews().catch(console.error);
+    });
+  }
 };
 
-const getNews = () => newsCache;
-
-module.exports = {
-  setupNewsScraping,
-  getNews,
-};
+module.exports = { setupNewsScraping, getNews };

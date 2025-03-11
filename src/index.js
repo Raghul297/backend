@@ -7,18 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // CORS configuration
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://*.vercel.app",
-    ],
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type"],
-    credentials: true,
-  })
-);
+app.use(cors()); // Allow all origins in production
 
 app.use(express.json());
 
