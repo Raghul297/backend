@@ -22,6 +22,19 @@ app.use(
 
 app.use(express.json());
 
+// Root route
+app.get("/", (req, res) => {
+  res.json({
+    message: "Welcome to the News Aggregator API",
+    endpoints: {
+      health: "/health",
+      allNews: "/api/news",
+      newsByTopic: "/api/news/topic/:topic",
+      newsBySource: "/api/news/source/:source",
+    },
+  });
+});
+
 // Health check endpoint
 app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date() });
