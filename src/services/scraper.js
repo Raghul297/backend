@@ -184,6 +184,7 @@ const scrapeArticle = async (source) => {
             sentiment: sentiment.toFixed(2),
             entities,
             timestamp: new Date(),
+            url: $(element).find("a").attr("href"),
           });
           console.log(
             `Successfully added article: ${title?.substring(0, 50)}...`
@@ -237,6 +238,7 @@ const updateNews = async () => {
           states: ["delhi"],
           people: ["Modi"],
         },
+        url: "https://timesofindia.indiatimes.com/india/government-announces-major-policy-changes/articleshow/12345678.cms",
         timestamp: new Date(),
       },
       {
@@ -250,6 +252,7 @@ const updateNews = async () => {
           states: ["mumbai"],
           people: ["Sitharaman"],
         },
+        url: "https://timesofindia.indiatimes.com/business/india-business/stock-market-hits-new-high/articleshow/12345679.cms",
         timestamp: new Date(),
       },
       {
@@ -263,6 +266,7 @@ const updateNews = async () => {
           states: ["delhi", "gujarat"],
           people: ["Kumar"],
         },
+        url: "https://timesofindia.indiatimes.com/india/new-education-policy-implementation/articleshow/12345680.cms",
         timestamp: new Date(),
       },
       {
@@ -276,6 +280,7 @@ const updateNews = async () => {
           states: ["bangalore", "hyderabad"],
           people: ["Nadella"],
         },
+        url: "https://timesofindia.indiatimes.com/india/tech-giants-invest-in-india/articleshow/12345681.cms",
         timestamp: new Date(),
       },
       {
@@ -289,6 +294,7 @@ const updateNews = async () => {
           states: ["punjab", "haryana"],
           people: ["Singh"],
         },
+        url: "https://timesofindia.indiatimes.com/india/climate-change-impact-on-agriculture/articleshow/12345682.cms",
         timestamp: new Date(),
       },
       // NDTV Articles
@@ -303,6 +309,7 @@ const updateNews = async () => {
           states: ["gujarat", "maharashtra"],
           people: ["Shah", "Gandhi"],
         },
+        url: "https://www.ndtv.com/india-news/election-results-analysis-2024/article12345",
         timestamp: new Date(),
       },
       {
@@ -316,6 +323,7 @@ const updateNews = async () => {
           states: ["mumbai"],
           people: ["Kohli", "Rohit"],
         },
+        url: "https://www.ndtv.com/sports/india-vs-australia-match-preview-2024-article12346",
         timestamp: new Date(),
       },
       {
@@ -329,6 +337,7 @@ const updateNews = async () => {
           states: ["delhi"],
           people: ["Mandaviya"],
         },
+        url: "https://www.ndtv.com/india-news/healthcare-system-reform-2024-article12347",
         timestamp: new Date(),
       },
       {
@@ -342,6 +351,7 @@ const updateNews = async () => {
           states: ["kerala"],
           people: ["Somanath"],
         },
+        url: "https://www.ndtv.com/india-news/isro-successfully-launches-new-satellite-with-advanced-capabilities-article12348",
         timestamp: new Date(),
       },
       {
@@ -355,6 +365,7 @@ const updateNews = async () => {
           states: ["delhi"],
           people: ["Das"],
         },
+        url: "https://www.ndtv.com/india-news/international-agencies-revise-india-s-growth-forecast-upward-for-next-fiscal-year-article12349",
         timestamp: new Date(),
       },
       // India Today Articles
@@ -369,6 +380,7 @@ const updateNews = async () => {
           states: ["bangalore"],
           people: ["Narayana"],
         },
+        url: "https://www.indiatoday.in/technology/story/ai-innovation-indian-startups-2024-article12345",
         timestamp: new Date(),
       },
       {
@@ -382,6 +394,7 @@ const updateNews = async () => {
           states: ["delhi"],
           people: ["Singh"],
         },
+        url: "https://www.indiatoday.in/india/defense-deal-announced-2024-article12350",
         timestamp: new Date(),
       },
       {
@@ -395,6 +408,7 @@ const updateNews = async () => {
           states: ["kerala", "goa"],
           people: ["Reddy"],
         },
+        url: "https://www.indiatoday.in/travel/story/tourism-sector-recovery-2024-article12351",
         timestamp: new Date(),
       },
       {
@@ -408,6 +422,7 @@ const updateNews = async () => {
           states: ["haryana", "punjab"],
           people: ["Thakur"],
         },
+        url: "https://www.indiatoday.in/sports/story/sports-infrastructure-development-2024-article12352",
         timestamp: new Date(),
       },
       {
@@ -421,6 +436,7 @@ const updateNews = async () => {
           states: ["uttarakhand"],
           people: ["Yadav"],
         },
+        url: "https://www.indiatoday.in/environment/story/environmental-protection-initiative-2024-article12353",
         timestamp: new Date(),
       },
     ];
@@ -447,6 +463,7 @@ const getNews = () => {
           states: ["delhi"],
           people: ["Modi"],
         },
+        url: "https://timesofindia.indiatimes.com/india/government-announces-major-policy-changes/articleshow/12345678.cms",
         timestamp: new Date(),
       },
       {
@@ -460,6 +477,7 @@ const getNews = () => {
           states: ["mumbai"],
           people: ["Sitharaman"],
         },
+        url: "https://timesofindia.indiatimes.com/business/india-business/stock-market-hits-new-high/articleshow/12345679.cms",
         timestamp: new Date(),
       },
       {
@@ -473,6 +491,7 @@ const getNews = () => {
           states: ["delhi", "gujarat"],
           people: ["Kumar"],
         },
+        url: "https://timesofindia.indiatimes.com/india/new-education-policy-implementation/articleshow/12345680.cms",
         timestamp: new Date(),
       },
       // NDTV Articles
@@ -487,6 +506,7 @@ const getNews = () => {
           states: ["gujarat", "maharashtra"],
           people: ["Shah", "Gandhi"],
         },
+        url: "https://www.ndtv.com/india-news/election-results-analysis-2024/article12345",
         timestamp: new Date(),
       },
       {
@@ -500,6 +520,7 @@ const getNews = () => {
           states: ["mumbai"],
           people: ["Kohli", "Rohit"],
         },
+        url: "https://www.ndtv.com/sports/india-vs-australia-match-preview-2024-article12346",
         timestamp: new Date(),
       },
       {
@@ -513,6 +534,7 @@ const getNews = () => {
           states: ["delhi"],
           people: ["Mandaviya"],
         },
+        url: "https://www.ndtv.com/india-news/healthcare-system-reform-2024-article12347",
         timestamp: new Date(),
       },
       // India Today Articles
@@ -527,6 +549,7 @@ const getNews = () => {
           states: ["bangalore"],
           people: ["Narayana"],
         },
+        url: "https://www.indiatoday.in/technology/story/ai-innovation-indian-startups-2024-article12345",
         timestamp: new Date(),
       },
       {
@@ -540,6 +563,7 @@ const getNews = () => {
           states: ["delhi"],
           people: ["Singh"],
         },
+        url: "https://www.indiatoday.in/india/defense-deal-announced-2024-article12350",
         timestamp: new Date(),
       },
       {
@@ -553,6 +577,7 @@ const getNews = () => {
           states: ["kerala", "goa"],
           people: ["Reddy"],
         },
+        url: "https://www.indiatoday.in/travel/story/tourism-sector-recovery-2024-article12351",
         timestamp: new Date(),
       },
     ];
