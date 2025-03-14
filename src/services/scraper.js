@@ -18,45 +18,27 @@ const sources = [
     name: "Times of India",
     url: "https://timesofindia.indiatimes.com/india",
     selectors: {
-      articles: ".main-content article",
-      title: "span.title",
-      content: "p.synopsis",
+      articles: "div[data-articlebody]",
+      title: "h2, .headline",
+      content: ".synopsis, .summary",
     },
   },
   {
-    name: "Economic Times",
-    url: "https://economictimes.indiatimes.com/news/india",
+    name: "NDTV",
+    url: "https://www.ndtv.com/india",
     selectors: {
-      articles: ".article",
-      title: ".title",
-      content: ".synopsis",
-    },
-  },
-  {
-    name: "Hindustan Times",
-    url: "https://www.hindustantimes.com/india-news",
-    selectors: {
-      articles: ".hdg3",
-      title: "h3.hdg3",
-      content: ".sortDec",
-    },
-  },
-  {
-    name: "News18",
-    url: "https://www.news18.com/india/",
-    selectors: {
-      articles: ".jsx-3621759782",
-      title: ".jsx-3621759782 h4",
-      content: ".jsx-3621759782 p",
+      articles: ".news_item",
+      title: "h2",
+      content: ".description, .nstory_intro",
     },
   },
   {
     name: "India Today",
     url: "https://www.indiatoday.in/india",
     selectors: {
-      articles: ".B1S3_content__wrap__9mSB6",
-      title: ".B1S3_story__title__9qn_v",
-      content: ".B1S3_story__shortcontent__5kVZf",
+      articles: ".view-content .catagory-listing",
+      title: "h2",
+      content: ".description",
     },
   },
 ];
@@ -126,7 +108,29 @@ const extractEntities = (text) => {
 const scrapeArticle = async (source) => {
   try {
     console.log(`Attempting to scrape ${source.name} from ${source.url}`);
-    const response = await axios.get(source.url, axiosConfig);
+    
+    // First attempt with default headers
+    let response;
+    try {
+      response = await axios.get(source.url, axiosConfig);
+    } catch (error) {
+      console.log(`First attempt failed for ${source.name}, trying alternative method...`);
+      // Try with different headers if first attempt fails
+      const alternativeConfig = {
+        ...axiosConfig,
+        headers: {
+          ...axiosConfig.headers,
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Connection': 'keep-alive',
+          'Upgrade-Insecure-Requests': '1',
+          'Cache-Control': 'max-age=0'
+        }
+      };
+      response = await axios.get(source.url, alternativeConfig);
+    }
+
     console.log(`Successfully fetched ${source.name} page`);
     const $ = cheerio.load(response.data);
     const articles = [];
@@ -134,72 +138,88 @@ const scrapeArticle = async (source) => {
     // Debug: Print the entire HTML structure
     console.log("HTML Structure:", $.html().substring(0, 500) + "...");
 
-    $(source.selectors.articles).each((i, element) => {
-      if (i < 5) {
-        console.log(`Processing article ${i + 1}`);
-        console.log("Article HTML:", $(element).html()?.substring(0, 200));
-
-        const titleElement = $(element).find(source.selectors.title);
-        const contentElement = $(element).find(source.selectors.content);
-
-        let title = titleElement.text().trim();
-        let content = contentElement.text().trim();
-
-        // If content is empty, try getting text from the article element itself
-        if (!content) {
-          content = $(element).text().trim();
-        }
-
-        // If no specific title found, use the first sentence of content as title
-        if (!title && content) {
-          const firstSentence = content.split(".")[0];
-          title =
-            firstSentence.length > 60
-              ? firstSentence.substring(0, 60) + "..."
-              : firstSentence;
-          content = content.substring(title.length);
-        }
-
-        console.log("Found elements:", {
-          titleFound: titleElement.length > 0,
-          contentFound: contentElement.length > 0,
-          titleText: title?.substring(0, 50),
-          contentLength: content?.length,
-        });
-
-        if (title || content) {
-          // Changed from AND to OR to be more lenient
-          const summary = content.split(" ").slice(0, 30).join(" ") + "...";
-          const sentiment = analyzer.getSentiment(
-            (content || title).split(" ")
-          );
-          const topic = categorizeArticle(content || title);
-          const entities = extractEntities(content || title);
-
-          articles.push({
-            source: source.name,
-            title: title || "Untitled Article",
-            summary: summary || title,
-            topic,
-            sentiment: sentiment.toFixed(2),
-            entities,
-            timestamp: new Date(),
-            url: $(element).find("a").attr("href"),
-          });
-          console.log(
-            `Successfully added article: ${title?.substring(0, 50)}...`
-          );
-        } else {
-          console.log("Skipping article due to missing both title and content");
-        }
+    // Try different selector combinations if the primary ones fail
+    const selectorCombinations = [
+      source.selectors,
+      {
+        articles: "article, .article, .news-item, .story-item",
+        title: "h1, h2, h3, .title, .headline",
+        content: "p, .content, .description, .summary"
       }
-    });
+    ];
 
-    console.log(
-      `Successfully scraped ${articles.length} articles from ${source.name}`
-    );
+    for (const selectors of selectorCombinations) {
+      $(selectors.articles).each((i, element) => {
+        if (i < 5) {
+          console.log(`Processing article ${i + 1}`);
+          console.log("Article HTML:", $(element).html()?.substring(0, 200));
+
+          const titleElement = $(element).find(selectors.title);
+          const contentElement = $(element).find(selectors.content);
+          const linkElement = $(element).find("a").first();
+
+          let title = titleElement.text().trim();
+          let content = contentElement.text().trim();
+          let url = linkElement.attr("href");
+
+          // Make URL absolute if it's relative
+          if (url && !url.startsWith("http")) {
+            url = new URL(url, source.url).toString();
+          }
+
+          // If content is empty, try getting text from the article element itself
+          if (!content) {
+            content = $(element).text().trim();
+          }
+
+          // If no specific title found, use the first sentence of content as title
+          if (!title && content) {
+            const firstSentence = content.split(".")[0];
+            title = firstSentence.length > 60 ? firstSentence.substring(0, 60) + "..." : firstSentence;
+            content = content.substring(title.length);
+          }
+
+          console.log("Found elements:", {
+            titleFound: titleElement.length > 0,
+            contentFound: contentElement.length > 0,
+            titleText: title?.substring(0, 50),
+            contentLength: content?.length,
+            url: url,
+          });
+
+          if (title || content) {
+            const summary = content.split(" ").slice(0, 30).join(" ") + "...";
+            const sentiment = analyzer.getSentiment((content || title).split(" "));
+            const topic = categorizeArticle(content || title);
+            const entities = extractEntities(content || title);
+
+            articles.push({
+              source: source.name,
+              title: title || "Untitled Article",
+              summary: summary || title,
+              topic,
+              sentiment: sentiment.toFixed(2),
+              entities,
+              url: url || source.url,
+              timestamp: new Date(),
+            });
+            console.log(`Successfully added article: ${title?.substring(0, 50)}...`);
+          } else {
+            console.log("Skipping article due to missing both title and content");
+          }
+        }
+      });
+
+      // If we found articles with this selector combination, break the loop
+      if (articles.length > 0) {
+        break;
+      }
+    }
+
+    console.log(`Successfully scraped ${articles.length} articles from ${source.name}`);
     if (articles.length === 0) {
       console.log("Selectors used:", source.selectors);
+      console.log("Page content sample:", response.data.substring(0, 1000));
     }
     return articles;
   } catch (error) {
@@ -585,17 +605,19 @@ const getNews = () => {
   return newsCache;
 };
 
-// Modify setupNewsScraping to run immediately and then schedule
+// Modify setupNewsScraping to run in all environments
 const setupNewsScraping = () => {
   // Run immediately
-  updateNews().catch(console.error);
+  updateNews().catch((error) => {
+    console.error("Error in initial news update:", error);
+  });
 
-  // Schedule updates every 30 minutes if not in production
-  if (process.env.NODE_ENV !== "production") {
-    cron.schedule("*/30 * * * *", () => {
-      updateNews().catch(console.error);
+  // Schedule updates every 30 minutes
+  cron.schedule("*/30 * * * *", () => {
+    updateNews().catch((error) => {
+      console.error("Error in scheduled news update:", error);
     });
-  }
+  });
 };
 
 module.exports = { setupNewsScraping, getNews };
